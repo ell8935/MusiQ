@@ -1,7 +1,9 @@
 import "./App.css";
+import MainScreen from "./modules/main/screens/MainScreen";
 
 function App() {
-  return <div></div>;
+  console.log(global.player);
+  return <MainScreen />;
 }
 
 export default App;
