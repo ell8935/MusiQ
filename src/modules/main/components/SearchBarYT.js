@@ -28,13 +28,15 @@ function SearchBarYT({ setNewItem }) {
     if (event.key === "Enter" && results.length > 0) {
       const youTubeVideoId = results[0].id.videoId;
       const youTubeVideoTitle = results[0].snippet.title;
-      setNewItem(youTubeVideoTitle);
+      setNewItem({ youTubeVideoTitle, youTubeVideoId });
     }
   };
 
-  const handleResultClick = (title) => {
-    const youTubeVideoTitle = title;
-    setNewItem(youTubeVideoTitle);
+  const handleResultClick = (result) => {
+    const youTubeVideoTitle = result.snippet.title;
+    const youTubeVideoId = result.id.videoId;
+    const youTubeURL = `https://www.youtube.com/watch?v=${youTubeVideoId}`;
+    setNewItem({ title: youTubeVideoTitle, url: youTubeURL });
   };
 
   return (
@@ -46,10 +48,7 @@ function SearchBarYT({ setNewItem }) {
         onKeyDown={handleKeyDown}
       />
       {results.map((result) => (
-        <div
-          key={result.id.videoId}
-          onClick={() => handleResultClick(result.snippet.title)}
-        >
+        <div key={result.id.videoId} onClick={() => handleResultClick(result)}>
           {result.snippet.title}
         </div>
       ))}

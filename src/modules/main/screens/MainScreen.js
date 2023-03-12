@@ -1,34 +1,40 @@
-import React from "react";
+import ReactPlayer from "react-player";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import QueueList from "../components/QueueList";
-import SearchBarYT from "../components/SearchBarYT";
 
 const MainScreen = () => {
-  const handleChange = () => {
-    // global.player.loadVideoById("r-EJbQUmJ30");
-    console.log(global.player);
-  };
-  const pauseMusic = () => {
-    global.player.pauseVideo();
-  };
-  const playMusic = () => {
-    global.player.playVideo();
+  const [playPause, setPlayPause] = useState(true);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  const { queueList } = useSelector((state) => state.queueListData);
+
+  const listURL = queueList.map((item) => item.url);
+
+  const handlePlayPause = () => {
+    setPlayPause(!playPause);
   };
 
-  // const skip = () => {
-  //   global.player.PlayerState.ENDED
-  //   if(global.player.PlayerState.ENDED){
-  //       global.player.playVideo();
-
-  //     }
-  // };
-
+  const handleOnEnded = () => {
+    setCurrentVideoIndex((prevIndex) => prevIndex + 1);
+  };
+  const handleManualPlay = (index) => {
+    setCurrentVideoIndex(index);
+  };
+  const handleSkip = () => {
+    handleOnEnded();
+  };
   return (
     <>
-      <div id="player"></div>
-      <button onClick={handleChange}>getInfo</button>
-      <button onClick={playMusic}>play</button>
-      <button onClick={pauseMusic}>pauseMusic</button>
-      <QueueList />
+      <ReactPlayer
+        onEnded={handleOnEnded}
+        playing={playPause}
+        controls
+        url={listURL[currentVideoIndex]}
+      />
+      <QueueList handleManualPlay={handleManualPlay} />
+      <button onClick={handlePlayPause}>play/pause</button>
+      <button onClick={handleSkip}>Skip</button>
     </>
   );
 };

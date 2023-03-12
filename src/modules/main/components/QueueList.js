@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
 import SearchBarYT from "./SearchBarYT";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { queueListData } from "../../../shared/hooks/redux/reducers/QueueListSlice";
 
-const QueueList = () => {
-  const [queue, setQueue] = useState(() => {
-    const storedQueue = JSON.parse(localStorage.getItem("queue"));
-    return storedQueue ?? [];
-  });
+const QueueList = ({ handleManualPlay }) => {
+  const dispatch = useDispatch();
+  const { queueList } = useSelector((state) => state.queueListData);
   const [newItem, setNewItem] = useState("");
 
+  const [queue, setQueue] = useState(() => {
+    const storedQueue = queueList;
+
+    return storedQueue ?? [];
+  });
+
   useEffect(() => {
-    // Retrieve the queue from local storage
-    const storedQueue = localStorage.getItem("queue");
-    if (storedQueue) {
-      setQueue(JSON.parse(storedQueue));
-    }
+    setQueue(queueList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // Save the queue to local storage whenever it changes
-    localStorage.setItem("queue", JSON.stringify(queue));
+    dispatch(queueListData(queue));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queue]);
 
   const addItem = () => {
@@ -34,16 +37,19 @@ const QueueList = () => {
 
   return (
     <div>
-      <h2>Queue List</h2>
       <div>
         <SearchBarYT setNewItem={setNewItem} />
         <button onClick={addItem}>Add Item</button>
       </div>
+      <h2>Queue List</h2>
       <ul>
         {queue.map((item, index) => (
           <li key={index}>
-            {item}
+            {item.title}
+            <br></br>
+            {item.url}
             <button onClick={() => removeItem(index)}>Remove</button>
+            <button onClick={() => handleManualPlay(index)}>PLAYSONG</button>
           </li>
         ))}
       </ul>
