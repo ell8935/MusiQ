@@ -11,8 +11,15 @@ const MainScreen = () => {
 
   const listURL = queueList.map((item) => item.url);
 
-  const handlePlayPause = () => {
-    setPlayPause(!playPause);
+  const handlePlayPause = (index) => {
+    console.log(playPause);
+    console.log(index);
+    console.log(currentVideoIndex);
+    if (index === currentVideoIndex) {
+      setPlayPause(true);
+    } else {
+      setCurrentVideoIndex(index);
+    }
   };
 
   const handleOnEnded = () => {
@@ -30,9 +37,12 @@ const MainScreen = () => {
         onEnded={handleOnEnded}
         playing={playPause}
         controls
-        url={listURL[currentVideoIndex]}
+        url={"https://soundcloud.com/shmh3xvzmzyw/0lu7v6w39wla"}
       />
-      <QueueList handleManualPlay={handleManualPlay} />
+      <QueueList
+        handleManualPlay={handleManualPlay}
+        handlePlayPause={handlePlayPause}
+      />
       <button onClick={handlePlayPause}>play/pause</button>
       <button onClick={handleSkip}>Skip</button>
     </>

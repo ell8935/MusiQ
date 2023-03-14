@@ -2,8 +2,11 @@ import SearchBarYT from "./SearchBarYT";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { queueListData } from "../../../shared/hooks/redux/reducers/QueueListSlice";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const QueueList = ({ handleManualPlay }) => {
+const QueueList = ({ handleManualPlay, handlePlayPause }) => {
   const dispatch = useDispatch();
   const { queueList } = useSelector((state) => state.queueListData);
   const [newItem, setNewItem] = useState("");
@@ -26,8 +29,11 @@ const QueueList = ({ handleManualPlay }) => {
 
   const addItem = () => {
     if (newItem) {
-      setQueue([...queue, newItem]);
-      setNewItem("");
+      const itemExists = queue.find((item) => item.url === newItem.url);
+      if (!itemExists) {
+        setQueue([...queue, newItem]);
+        setNewItem("");
+      }
     }
   };
 
@@ -39,17 +45,19 @@ const QueueList = ({ handleManualPlay }) => {
     <div>
       <div>
         <SearchBarYT setNewItem={setNewItem} />
-        <button onClick={addItem}>Add Item</button>
+        <button onClick={addItem}>Add Song</button>
       </div>
       <h2>Queue List</h2>
       <ul>
         {queue.map((item, index) => (
           <li key={index}>
+            <IconButton onClick={() => handlePlayPause(index)}>
+              <PlayArrowIcon />
+            </IconButton>
+            <IconButton onClick={() => removeItem(index)}>
+              <DeleteIcon />
+            </IconButton>
             {item.title}
-            <br></br>
-            {item.url}
-            <button onClick={() => removeItem(index)}>Remove</button>
-            <button onClick={() => handleManualPlay(index)}>PLAYSONG</button>
           </li>
         ))}
       </ul>
