@@ -1,7 +1,7 @@
-import SearchBarYT from "./SearchBarYT";
+import SearchBarYT from "../SearchBarYT/SearchBarYT";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { queueListData } from "../../../shared/hooks/redux/reducers/QueueListSlice";
+import { queueListData } from "../../../../shared/hooks/redux/reducers/QueueListSlice";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

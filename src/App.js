@@ -1,7 +1,6 @@
 // import { Provider } from "react-redux";
 // import "./App.css";
 // import MainScreen from "./modules/main/screens/MainScreen";
-// import { store } from "./shared/hooks/redux/store";
 // import { useAuth } from "./shared/hooks/useAuth";
 
 // function App() {
@@ -18,18 +17,22 @@
 // export default App;
 
 import "./App.css";
-import { AuthenticatedApp } from "./modules/main/components/AuthenticatedApp";
-import { UnauthenticatedApp } from "./modules/main/components/UnauthenticatedApp";
+import { Provider } from "react-redux";
 import { useAuth } from "./shared/hooks/useAuth";
+import { AuthenticatedApp } from "./modules/main/components/AuthenticatedApp/AuthenticatedApp";
+import { UnauthenticatedApp } from "./modules/main/components/UnauthenticatedApp/UnauthenticatedApp";
+import { store } from "./shared/redux/store";
 
 function App() {
   const { user } = useAuth();
 
   return (
-    <div className="container">
-      <h1>💬 Chat Room</h1>
-      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-    </div>
+    <Provider store={store}>
+      <div className="container">
+        <h1>💬 Chat Room</h1>
+        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      </div>
+    </Provider>
   );
 }
 

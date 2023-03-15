@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import useDebounce from "../../../shared/hooks/useDebounce";
+import useDebounce from "../../../../shared/hooks/useDebounce";
 
 function SearchBarYT({ setNewItem }) {
   const [query, setQuery] = useState("");

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ChatRoom } from "../../chatRoom/components/ChatRoom/ChatRoom";
-import { Landing } from "../../chatRoom/components/Landing/Landing";
+import { ChatRoom } from "../../../chatRoom/components/ChatRoom/ChatRoom";
+import { Landing } from "../../../chatRoom/components/Landing/Landing";
 
 function AuthenticatedApp() {
   return (
